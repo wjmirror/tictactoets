@@ -4,11 +4,16 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-  entry: "./src/index.tsx",
+  entry: {
+    tictactoe:"./src/tictactoegame.tsx",
+    index: {
+      dependOn: "tictactoe",
+      import:"./src/index.tsx",
+    }
+  },
   mode:"development",
   output: {
     path: path.resolve(__dirname, "build"),
-    filename: "index.js",
   },
   devServer: {
     static: path.join(__dirname,"build"),

@@ -36,8 +36,7 @@
   },
   "scripts": {
     "start": "webpack serve --open",
-    "build": "webpack --mode production",
-    "lib": "babel ./src/tictactoegame.tsx --out-file ./build/lib/game.js && babel ./src/index.tsx --out-file ./build/lib/index.js"
+    "build": "webpack --mode production"
   },
   "eslintConfig": {
     "extends": [
