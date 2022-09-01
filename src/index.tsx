@@ -2,7 +2,14 @@ import React from "react";
 import ReactDOM  from "react-dom/client";
 import './index.css';
 
-function Square (props) {
+type squareValueType = "X"|"O"|null ;
+
+interface ISquareProps{
+  value: squareValueType,
+  onSquareClick: ()=>void
+}
+
+function Square (props:ISquareProps) {
   return (
     <button 
       className="square" 
@@ -12,9 +19,15 @@ function Square (props) {
     </button>
   );
 }
+
+interface IBoardProps{
+  squares: Array<squareValueType>,
+  onClick: (i:number)=>void 
+}
   
-class Board extends React.Component {
-  renderSquare(i) {
+class Board extends React.Component<IBoardProps> {
+
+  renderSquare(i: number) {
     return (
       <Square 
         value={this.props.squares[i]} 
@@ -45,9 +58,15 @@ class Board extends React.Component {
     );
   }
 }
-  
-class Game extends React.Component {
-  constructor(props){
+
+interface IGameState{
+  history: Array<{squares:Array<squareValueType>}>,
+  stepNumber:number,
+  xIsNext:boolean
+}
+
+class Game extends React.Component<{},IGameState> {
+  constructor(props:Object){
     super(props);
     this.state={
       history:[{
@@ -58,7 +77,7 @@ class Game extends React.Component {
     };
   }
 
-  calculateWinner(squares) {
+  calculateWinner(squares:Array<squareValueType>) {
     const lines = [
       [0, 1, 2],
       [3, 4, 5],
@@ -78,7 +97,7 @@ class Game extends React.Component {
     return null;
   }
 
-  handleClick(i){
+  handleClick(i:number):void {
     const history = this.state.history.slice(0,this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
@@ -94,7 +113,7 @@ class Game extends React.Component {
     });
   }
 
-  jumpTo(step){
+  jumpTo(step:number){
     this.setState({
       stepNumber: step,
       xIsNext: (step % 2) === 0,
@@ -141,6 +160,6 @@ class Game extends React.Component {
   
   // ========================================
   
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById("root") as Element);
 root.render(<Game />);
   
